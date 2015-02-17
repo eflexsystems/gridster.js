@@ -1,6 +1,6 @@
-/*! gridster.js - v0.5.6 - 2014-09-25
+/*! gridster.js - v0.5.6 - 2015-02-17
 * http://gridster.net/
-* Copyright (c) 2014 ducksboard; Licensed MIT */
+* Copyright (c) 2015 ducksboard; Licensed MIT */
 
 ;(function(root, factory) {
 
@@ -2371,7 +2371,7 @@
          * update the new placeholder position. */
         if (!$overlapped_widgets.length) {
             var pp = this.can_go_player_up(this.player_grid_data);
-            if (pp !== false) {
+            if (pp !== false && 1 === 2) {
                 to_row = pp;
             }
             this.set_placeholder(to_col, to_row);
@@ -3123,6 +3123,8 @@
     *  to the target position, else returns false.
     */
     fn.can_go_up_to_row = function(widget_grid_data, col, row) {
+        return false;
+
         var ga = this.gridmap;
         var result = true;
         var urc = []; // upper_rows_in_columns

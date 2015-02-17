@@ -1524,7 +1524,7 @@
          * update the new placeholder position. */
         if (!$overlapped_widgets.length) {
             var pp = this.can_go_player_up(this.player_grid_data);
-            if (pp !== false) {
+            if (pp !== false && 1 === 2) {
                 to_row = pp;
             }
             this.set_placeholder(to_col, to_row);
@@ -2276,6 +2276,8 @@
     *  to the target position, else returns false.
     */
     fn.can_go_up_to_row = function(widget_grid_data, col, row) {
+        return false;
+
         var ga = this.gridmap;
         var result = true;
         var urc = []; // upper_rows_in_columns
