@@ -1,0 +1,11 @@
+{
+  "name": "gridster",
+  "homepage": "https://github.com/eflexsystems/gridster.js",
+  "dependencies": {
+    "jquery-ui": "*"
+  },
+  "main": [
+    "dist/jquery.gridster.css",
+    "dist/jquery.gridster.js"
+  ]
+}
