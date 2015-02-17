@@ -1515,10 +1515,6 @@
         /* if there is not widgets overlapping in the new player position,
          * update the new placeholder position. */
         if (!$overlapped_widgets.length) {
-            var pp = this.can_go_player_up(this.player_grid_data);
-            if (pp !== false && 1 === 2) {
-                to_row = pp;
-            }
             this.set_placeholder(to_col, to_row);
         }
 
@@ -2102,15 +2098,7 @@
     * @return {jQuery} Returns a jQuery collection of HTMLElements.
     */
     fn.on_stop_overlapping_row = function(row) {
-        this.set_player(false, row);
-
-        var self = this;
-        var cols = this.cells_occupied_by_player.cols;
-        for (var c = 0, cl = cols.length; c < cl; c++) {
-            this.for_each_widget_below(cols[c], row, function(tcol, trow) {
-                self.move_widget_up(this, self.player_grid_data.size_y);
-            });
-        }
+        return;
     };
 
 
