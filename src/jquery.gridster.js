@@ -844,14 +844,6 @@
         var posChanged = false;
         isDOM || ($el = wgd.el);
 
-        var empty_upper_row = this.can_go_widget_up(wgd);
-        if (empty_upper_row) {
-            wgd.row = empty_upper_row;
-            $el.attr('data-row', empty_upper_row);
-            this.$el.trigger('gridster:positionchanged', [wgd]);
-            posChanged = true;
-        }
-
         if (this.options.avoid_overlapped_widgets &&
             !this.can_move_to(
              {size_x: wgd.size_x, size_y: wgd.size_y}, wgd.col, wgd.row)
