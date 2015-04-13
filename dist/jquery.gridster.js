@@ -1,4 +1,4 @@
-/*! gridster.js - v0.5.6 - 2015-02-17
+/*! gridster.js - v0.5.6 - 2015-04-13
 * http://gridster.net/
 * Copyright (c) 2015 ducksboard; Licensed MIT */
 /*jshint expr: true*/
