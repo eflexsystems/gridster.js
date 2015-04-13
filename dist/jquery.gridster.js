@@ -1,6 +1,7 @@
 /*! gridster.js - v0.5.6 - 2015-02-17
 * http://gridster.net/
 * Copyright (c) 2015 ducksboard; Licensed MIT */
+/*jshint expr: true*/
 
 ;(function(root, factory) {
 
@@ -466,7 +467,7 @@
     var idCounter = 0;
     var uniqId = function() {
         return ++idCounter + '';
-    }
+    };
 
     /**
     * Basic drag implementation for DOM elements inside a container.
@@ -2106,7 +2107,7 @@
 
         this.$resized_widget.addClass('resizing');
 
-		if (this.options.resize.start) {
+    if (this.options.resize.start) {
             this.options.resize.start.call(this, event, ui, this.$resized_widget);
         }
 
@@ -2522,14 +2523,14 @@
     */
     fn.is_empty = function(col, row) {
         if (typeof this.gridmap[col] !== 'undefined') {
-			if(typeof this.gridmap[col][row] !== 'undefined' &&
-				 this.gridmap[col][row] === false
-			) {
-				return true;
-			}
-			return false;
-		}
-		return true;
+      if(typeof this.gridmap[col][row] !== 'undefined' &&
+         this.gridmap[col][row] === false
+      ) {
+        return true;
+      }
+      return false;
+    }
+    return true;
     };
 
 
