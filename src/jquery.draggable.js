@@ -44,7 +44,7 @@
     var idCounter = 0;
     var uniqId = function() {
         return ++idCounter + '';
-    }
+    };
 
     /**
     * Basic drag implementation for DOM elements inside a container.
