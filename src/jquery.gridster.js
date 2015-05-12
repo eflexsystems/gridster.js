@@ -4028,6 +4028,9 @@
         if (typeof this.gridmap[col] !== 'undefined') {
 			if(typeof this.gridmap[col][row] !== 'undefined' &&
                 this.gridmap[col][row] === false
+<<<<<<< HEAD
+>>>>>>> 60b38cbe0a9399cb33bd415af1fa371d08dcfc78
+=======
 >>>>>>> 60b38cbe0a9399cb33bd415af1fa371d08dcfc78
 			) {
 				return true;

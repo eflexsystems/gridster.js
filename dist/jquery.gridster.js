@@ -1,9 +1,12 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 /*! gridster.js - v0.6.8 - 2015-04-28
 * http://gridster.net/
 * Copyright (c) 2015 ducksboard; Licensed MIT */
 
 =======
+=======
+>>>>>>> 60b38cbe0a9399cb33bd415af1fa371d08dcfc78
 /*! gridster.js - v0.5.6 - 2015-04-15
 * http://gridster.net/
 * Copyright (c) 2015 ducksboard; Licensed MIT */
@@ -2315,6 +2318,46 @@
 		return this;
 	};
 =======
+    /**
+    * Change the dimensions of widgets.
+    *
+    * @method resize_widget_dimensions
+    * @param {Object} [options] An Object with all options you want to
+    *        overwrite:
+    *    @param {Array} [options.widget_margins] Margin between widgets.
+    *     The first index for the horizontal margin (left, right) and
+    *     the second for the vertical margin (top, bottom).
+    *    @param {Array} [options.widget_base_dimensions] Base widget dimensions
+    *     in pixels. The first index for the width and the second for the
+    *     height.
+    * @return {Class} Returns the instance of the Gridster Class.
+    */
+    fn.resize_widget_dimensions = function(options) {
+        if (options.widget_margins) {
+            this.options.widget_margins = options.widget_margins;
+        }
+
+        if (options.widget_base_dimensions) {
+             this.options.widget_base_dimensions = options.widget_base_dimensions;
+        }
+
+        this.min_widget_width  = (this.options.widget_margins[0] * 2) + this.options.widget_base_dimensions[0];
+        this.min_widget_height = (this.options.widget_margins[1] * 2) + this.options.widget_base_dimensions[1];
+
+        var serializedGrid = this.serialize();
+        this.$widgets.each($.proxy(function(i, widget) {
+            var $widget = $(widget);
+            this.resize_widget($widget);
+        }, this));
+
+        this.generate_grid_and_stylesheet();
+        this.get_widgets_from_DOM();
+        this.set_dom_grid_height();
+
+        return this;
+    };
+
+
     /**
     * Change the dimensions of widgets.
     *
@@ -4895,6 +4938,7 @@
 			callback.call(this, new_grid_data.col, new_grid_data.row);
 		}
 
+<<<<<<< HEAD
 		return $widget;
 	};
 
@@ -4921,6 +4965,205 @@
 		if (can_move_to_new_cell === false) {
 			return false;
 		}
+=======
+    /**
+    * This callback is executed when the player ends to collide with a row.
+    *
+    * @method on_stop_overlapping_row
+    * @param {Number} row The collided row.
+    * @return {jQuery} Returns a jQuery collection of HTMLElements.
+    */
+    fn.on_stop_overlapping_row = function(row) {
+        return;
+    };
+
+
+    /**
+    * Move a widget to a specific row. The cell or cells must be empty.
+    * If the widget has widgets below, all of these widgets will be moved also
+    * if they can.
+    *
+    * @method move_widget_to
+    * @param {HTMLElement} $widget The jQuery wrapped HTMLElement of the
+    * widget is going to be moved.
+    * @return {Class} Returns the instance of the Gridster Class.
+    */
+    fn.move_widget_to = function($widget, row) {
+        var self = this;
+        var widget_grid_data = $widget.coords().grid;
+        var diff = row - widget_grid_data.row;
+        var $next_widgets = this.widgets_below($widget);
+
+        var can_move_to_new_cell = this.can_move_to(
+            widget_grid_data, widget_grid_data.col, row, $widget);
+
+        if (can_move_to_new_cell === false) {
+            return false;
+        }
+
+        this.remove_from_gridmap(widget_grid_data);
+        widget_grid_data.row = row;
+        this.add_to_gridmap(widget_grid_data);
+        $widget.attr('data-row', row);
+        this.$changed = this.$changed.add($widget);
+
+
+        $next_widgets.each(function(i, widget) {
+            var $w = $(widget);
+            var wgd = $w.coords().grid;
+            var can_go_up = self.can_go_widget_up(wgd);
+            if (can_go_up && can_go_up !== wgd.row) {
+                self.move_widget_to($w, can_go_up);
+            }
+        });
+
+        return this;
+    };
+
+
+    /**
+    * Move up the specified widget and all below it.
+    *
+    * @method move_widget_up
+    * @param {HTMLElement} $widget The widget you want to move.
+    * @param {Number} [y_units] The number of cells that the widget has to move.
+    * @return {Class} Returns the instance of the Gridster Class.
+    */
+    fn.move_widget_up = function($widget, y_units) {
+        var el_grid_data = $widget.coords().grid;
+        var actual_row = el_grid_data.row;
+        var moved = [];
+        var can_go_up = true;
+        y_units || (y_units = 1);
+
+        if (!this.can_go_up($widget)) { return false; } //break;
+
+        this.for_each_column_occupied(el_grid_data, function(col) {
+            // can_go_up
+            if ($.inArray($widget, moved) === -1) {
+                var widget_grid_data = $widget.coords().grid;
+                var next_row = actual_row - y_units;
+                next_row = this.can_go_up_to_row(
+                    widget_grid_data, col, next_row);
+
+                if (!next_row) {
+                    return true;
+                }
+
+                var $next_widgets = this.widgets_below($widget);
+
+                this.remove_from_gridmap(widget_grid_data);
+                widget_grid_data.row = next_row;
+                this.add_to_gridmap(widget_grid_data);
+                $widget.attr('data-row', widget_grid_data.row);
+                this.$changed = this.$changed.add($widget);
+
+                moved.push($widget);
+
+                $next_widgets.each($.proxy(function(i, widget) {
+                    this.move_widget_up($(widget), y_units);
+                }, this));
+            }
+        });
+
+    };
+
+
+    /**
+    * Move down the specified widget and all below it.
+    *
+    * @method move_widget_down
+    * @param {jQuery} $widget The jQuery object representing the widget
+    *  you want to move.
+    * @param {Number} y_units The number of cells that the widget has to move.
+    * @return {Class} Returns the instance of the Gridster Class.
+    */
+    fn.move_widget_down = function($widget, y_units) {
+        var el_grid_data, actual_row, moved, y_diff;
+
+        if (y_units <= 0) { return false; }
+
+        el_grid_data = $widget.coords().grid;
+        actual_row = el_grid_data.row;
+        moved = [];
+        y_diff = y_units;
+
+        if (!$widget) { return false; }
+
+        if ($.inArray($widget, moved) === -1) {
+
+            var widget_grid_data = $widget.coords().grid;
+            var next_row = actual_row + y_units;
+            var $next_widgets = this.widgets_below($widget);
+
+            this.remove_from_gridmap(widget_grid_data);
+
+            $next_widgets.each($.proxy(function(i, widget) {
+                var $w = $(widget);
+                var wd = $w.coords().grid;
+                var tmp_y = this.displacement_diff(
+                             wd, widget_grid_data, y_diff);
+
+                if (tmp_y > 0) {
+                    this.move_widget_down($w, tmp_y);
+                }
+            }, this));
+
+            widget_grid_data.row = next_row;
+            this.update_widget_position(widget_grid_data, $widget);
+            $widget.attr('data-row', widget_grid_data.row);
+            this.$changed = this.$changed.add($widget);
+
+            moved.push($widget);
+        }
+    };
+
+
+    /**
+    * Check if the widget can move to the specified row, else returns the
+    * upper row possible.
+    *
+    * @method can_go_up_to_row
+    * @param {Number} widget_grid_data The current grid coords object of the
+    *  widget.
+    * @param {Number} col The target column.
+    * @param {Number} row The target row.
+    * @return {Boolean|Number} Returns the row number if the widget can move
+    *  to the target position, else returns false.
+    */
+    fn.can_go_up_to_row = function(widget_grid_data, col, row) {
+        return false;
+
+        var ga = this.gridmap;
+        var result = true;
+        var urc = []; // upper_rows_in_columns
+        var actual_row = widget_grid_data.row;
+        var r;
+
+        /* generate an array with columns as index and array with
+         * upper rows empty in the column */
+        this.for_each_column_occupied(widget_grid_data, function(tcol) {
+            var grid_col = ga[tcol];
+            urc[tcol] = [];
+
+            r = actual_row;
+            while (r--) {
+                if (this.is_empty(tcol, r) &&
+                    !this.is_placeholder_in(tcol, r)
+                ) {
+                    urc[tcol].push(r);
+                } else {
+                    break;
+                }
+            }
+
+            if (!urc[tcol].length) {
+                result = false;
+                return true;
+            }
+
+        });
+>>>>>>> 60b38cbe0a9399cb33bd415af1fa371d08dcfc78
 
 		this.remove_from_gridmap(widget_grid_data);
 		widget_grid_data.row = row;
