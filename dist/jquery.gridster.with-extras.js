@@ -1,4 +1,4 @@
-/*! gridster.js - v0.6.8 - 2015-05-12
+/*! gridster.js - v0.6.8 - 2015-05-13
 * http://gridster.net/
 * Copyright (c) 2015 ducksboard; Licensed MIT */
 
@@ -2894,7 +2894,6 @@
             //			}
             //			if (this.can_placeholder_be_set(to_col, to_row, player_size_x, player_size_y)) {
 				this.set_placeholder(to_col, to_row);
-			}
 		}
 
 		this.w_queue = {};

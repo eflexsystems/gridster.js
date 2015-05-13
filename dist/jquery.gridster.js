@@ -1,4 +1,4 @@
-/*! gridster.js - v0.6.8 - 2015-04-28
+/*! gridster.js - v0.6.8 - 2015-05-13
 * http://gridster.net/
 * Copyright (c) 2015 ducksboard; Licensed MIT */
 
@@ -2887,14 +2887,13 @@
 		/* if there is not widgets overlapping in the new player position,
 		 * update the new placeholder position. */
 		if (!$overlapped_widgets.length) {
-            // 2015-05-13 Commenting out beacuse Jacob noted this allows "dropping a card anywhere to work"
-			//var pp = this.can_go_player_up(this.player_grid_data);
-			//if (pp !== false) {
-			//	to_row = pp;
-			//}
-			//if (this.can_placeholder_be_set(to_col, to_row, player_size_x, player_size_y)) {
+            // 2015-04-15 Commenting out as Jacob removed it to allow 'dropping card anywhere to work'
+            //			var pp = this.can_go_player_up(this.player_grid_data);
+            //			if (pp !== false) {
+            //				to_row = pp;
+            //			}
+            //			if (this.can_placeholder_be_set(to_col, to_row, player_size_x, player_size_y)) {
 				this.set_placeholder(to_col, to_row);
-			//}
 		}
 
 		this.w_queue = {};
@@ -3653,15 +3652,13 @@
 	 */
 	fn.on_stop_overlapping_column = function (col) {
 		//this.set_player(col, false);
-        // 2015-05-13 Commenting out beacuse Jacob noted this allows "dropping a card anywhere to work"
-		//var self = this;
-		//if (this.options.shift_larger_widgets_down) {
-		//	this.for_each_widget_below(col, this.cells_occupied_by_player.rows[0],
-		//			function (tcol, trow) {
-		//				self.move_widget_up(this, self.player_grid_data.size_y);
-		//			});
-		//}
-        return;
+		var self = this;
+		if (this.options.shift_larger_widgets_down) {
+			this.for_each_widget_below(col, this.cells_occupied_by_player.rows[0],
+					function (tcol, trow) {
+						self.move_widget_up(this, self.player_grid_data.size_y);
+					});
+		}
 	};
 
 
@@ -3673,19 +3670,21 @@
 	 * @return {jQuery} Returns a jQuery collection of HTMLElements.
 	 */
 	fn.on_stop_overlapping_row = function (row) {
-		//this.set_player(false, row);
-		var self = this;
-		var cols = this.cells_occupied_by_player.cols;
-		if (this.options.shift_larger_widgets_down) {
-			/*jshint -W083 */
-			for (var c = 0, cl = cols.length; c < cl; c++) {
-				this.for_each_widget_below(cols[c], row, function (tcol, trow) {
-					console.log('from_on_stop_overlapping_row');
-					self.move_widget_up(this, self.player_grid_data.size_y);
-				});
-			}
-			/*jshint +W083 */
-		}
+        // 2015-04-15 Commenting out as Jacob removed it to allow 'dropping card anywhere to work'
+        //		//this.set_player(false, row);
+        //		var self = this;
+        //		var cols = this.cells_occupied_by_player.cols;
+        //		if (this.options.shift_larger_widgets_down) {
+        //			/*jshint -W083 */
+        //			for (var c = 0, cl = cols.length; c < cl; c++) {
+        //				this.for_each_widget_below(cols[c], row, function (tcol, trow) {
+        //					console.log('from_on_stop_overlapping_row');
+        //					self.move_widget_up(this, self.player_grid_data.size_y);
+        //				});
+        //			}
+        //			/*jshint +W083 */
+        //		}
+        return;
 	};
 
 	//Not yet part of api - DM.
