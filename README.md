@@ -19,16 +19,9 @@ they are. Thank you guys!
 
 ## Forks
 
-Mr @dustmoo (maintainer of Gridster) has his own fork of gridster.js
-with some new interesting features like widget-swapping and static widgets.
-
-Can be found here: [dustmoo/gridster.js](https://github.com/dustmoo/gridster.js)
-
-@dustmoo is working in his spare time to merge all these changes into
-ducksboard/gridster.js
-
-If anyone would like to help @dustmoo improve his fork and reconcile
-it with the main library he would be happy for the help.
+As of result of the inactivity over the last year in the [Ducksboard](https://github.com/ducksboard/gridster.js) repository, [@dsmorse](https://github.com/dsmorse/gridster.js) has created a fork
+for current support.  He will GLADLY accept pull requests, and will be working to merge existing
+Pull Requests from Ducksboard repo.
 
 
 ## Contributing to this project
