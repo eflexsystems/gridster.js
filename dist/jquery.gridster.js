@@ -1,4 +1,4 @@
-/*! gridster.js - v0.5.6 - 2015-04-15
+/*! gridster.js - v0.5.6 - 2015-05-15
 * http://gridster.net/
 * Copyright (c) 2015 ducksboard; Licensed MIT */
 
@@ -887,7 +887,9 @@
                 size_y: wgd.size_y
             };
         },
-        collision: {},
+        collision: {
+            wait_for_mouseup: false
+        },
         draggable: {
             items: '.gs-w',
             distance: 4,
@@ -947,6 +949,9 @@
     *    @param {Object} [options.collision] An Object with all options for
     *     Collision class you want to overwrite. See Collision docs for
     *     more info.
+    *       @param {Boolean} [options.collision.wait_for_mouseup] Default is false.
+    *       If true then it will not move colliding widgets during drag, but only on
+    *       mouseup.
     *    @param {Object} [options.draggable] An Object with all options for
     *     Draggable class you want to overwrite. See Draggable docs for more
     *     info.
@@ -2002,12 +2007,15 @@
         this.colliders_data = this.collision_api.get_closest_colliders(
             abs_offset);
 
-        this.on_overlapped_column_change(
-            this.on_start_overlapping_column, this.on_stop_overlapping_column);
+        if (this.options.collision.wait_for_mouseup) {
+            // Stop update of collisions during on_drag
+        } else {
+            this.on_overlapped_column_change(
+                this.on_start_overlapping_column, this.on_stop_overlapping_column);
 
-        this.on_overlapped_row_change(
-            this.on_start_overlapping_row, this.on_stop_overlapping_row);
-
+            this.on_overlapped_row_change(
+                this.on_start_overlapping_row, this.on_stop_overlapping_row);
+        }
 
         if (this.helper && this.$player) {
             this.$player.css({
