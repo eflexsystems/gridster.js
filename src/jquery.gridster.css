@@ -3,6 +3,7 @@
 }
 
 .gridster > * {
+    margin: 0 auto;
     -webkit-transition: height .4s, width .4s;
     -moz-transition: height .4s, width .4s;
     -o-transition: height .4s, width .4s;
@@ -13,14 +14,6 @@
 .gridster .gs-w {
     z-index: 2;
     position: absolute;
-}
-
-.gridster.collapsed {
-   height: auto !important;
-}
-
-.gridster.collapsed .gs-w {
-    position: static !important;
 }
 
 .ready .gs-w:not(.preview-holder) {

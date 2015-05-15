@@ -7,11 +7,8 @@
  */
 
 ;(function(root, factory) {
-	'use strict';
-    if(typeof exports === 'object') {
-        module.exports = factory(require('jquery'));
-    }
-    else if (typeof define === 'function' && define.amd) {
+
+    if (typeof define === 'function' && define.amd) {
         define('gridster-collision', ['jquery', 'gridster-coords'], factory);
     } else {
         root.GridsterCollision = factory(root.$ || root.jQuery,
@@ -19,7 +16,7 @@
     }
 
 }(this, function($, Coords) {
-	'use strict';
+
     var defaults = {
         colliders_context: document.body,
         overlapping_region: 'C'
@@ -172,22 +169,20 @@
                 var area_coords = self.calculate_overlapped_area_coords(
                     player_coords, collider_coords);
                 var area = self.calculate_overlapped_area(area_coords);
-                if ( 0 !== area ) {
-                    var collider_data = {
-                        area: area,
-                        area_coords : area_coords,
-                        region: region,
-                        coords: collider_coords,
-                        player_coords: player_coords,
-                        el: $collider
-                    };
+                var collider_data = {
+                    area: area,
+                    area_coords : area_coords,
+                    region: region,
+                    coords: collider_coords,
+                    player_coords: player_coords,
+                    el: $collider
+                };
 
-                    if (self.options.on_overlap) {
-                        self.options.on_overlap.call(this, collider_data);
-                    }
-                    colliders_coords.push($collider_coords_ins);
-                    colliders_data.push(collider_data);
+                if (self.options.on_overlap) {
+                    self.options.on_overlap.call(this, collider_data);
                 }
+                colliders_coords.push($collider_coords_ins);
+                colliders_data.push(collider_data);
             }
         }
 
