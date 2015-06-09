@@ -318,6 +318,7 @@
         if (this.$scroll_target) {
           this.previous_scroll = this.$scroll_target.scrollTop();
           this.$scroll_target.on('scroll.gridster', $.proxy(this.on_scroll, this));
+          this.initial_scroll = this.previous_scroll;
         }
 
         var offset = this.$container.offset();
@@ -355,6 +356,14 @@
 
         this.options.autoscroll && this.manage_scroll(data);
 
+        if (this.$scroll_target) {
+          var current_scroll = this.$scroll_target.scrollTop();
+          console.log("initial_scroll", this.initial_scroll);
+          console.log("current_scroll", current_scroll);
+
+          data.position.top = data.position.top + current_scroll - this.initial_scroll;
+        }
+
         if (this.options.move_element) {
             (this.helper ? this.$helper : this.$player).css({
                 'position': 'absolute',
@@ -385,7 +394,20 @@
         console.log("current_scroll", current_scroll);
         console.log("Scrolled by ", scroll_amount);
 
+        var new_position = {
+          left: this.last_position.left,
+          top: this.last_position.top + scroll_amount
+        };
+
+        (this.helper ? this.$helper : this.$player).css({
+            'position': 'absolute',
+            'left' : new_position.left,
+            'top' : new_position.top
+        });
+
         this.previous_scroll = current_scroll;
+        this.last_position = new_position;
+        return false;
       }
     };
 
