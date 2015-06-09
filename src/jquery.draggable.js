@@ -27,7 +27,8 @@
         container_width: 0,  // 0 == auto
         move_element: true,
         helper: false,  // or 'clone'
-        remove_helper: true
+        remove_helper: true,
+        scroll_target: null
         // drag: function(e) {},
         // start : function(e, ui) {},
         // stop : function(e) {}
@@ -79,6 +80,7 @@
       this.options = $.extend({}, defaults, options);
       this.$document = $(document);
       this.$container = $(el);
+      this.$scroll_target = this.options.scroll_target;
       this.$dragitems = $(this.options.items, this.$container);
       this.is_dragging = false;
       this.player_min_left = 0 + this.options.offset_left;
@@ -312,6 +314,12 @@
         if (this.is_dragging) { return this; }
 
         this.drag_start = this.is_dragging = true;
+
+        if (this.$scroll_target) {
+          this.previous_scroll = this.$scroll_target.scrollTop();
+          this.$scroll_target.on('scroll.gridster', $.proxy(this.on_scroll, this));
+        }
+
         var offset = this.$container.offset();
         this.baseX = Math.round(offset.left);
         this.baseY = Math.round(offset.top);
@@ -356,6 +364,8 @@
         }
 
         var last_position = this.last_position || data.position;
+
+
         data.prev_position = last_position;
 
         if (this.options.drag) {
@@ -364,6 +374,19 @@
 
         this.last_position = data.position;
         return false;
+    };
+
+    fn.on_scroll = function(e) {
+      if (this.$scroll_target) {
+        var current_scroll = this.$scroll_target.scrollTop();
+        var scroll_amount = current_scroll - this.previous_scroll;
+
+        console.log("previous_scroll", this.previous_scroll);
+        console.log("current_scroll", current_scroll);
+        console.log("Scrolled by ", scroll_amount);
+
+        this.previous_scroll = current_scroll;
+      }
     };
 
 
@@ -377,6 +400,10 @@
 
         if (this.helper && this.options.remove_helper) {
             this.$helper.remove();
+        }
+
+        if (this.$scroll_target) {
+          this.$scroll_target.off('scroll.gridster');
         }
 
         return false;
