@@ -170,6 +170,13 @@
             }
         }
 
+        var scroll_pos = {initial: 0, current: 0}
+
+        if (this.$scroll_target) {
+          scroll_pos.current = this.$scroll_target.scrollTop();
+          scroll_pos.initial = this.initial_scroll;
+        }
+
         return {
             position: {
                 left: left,
@@ -180,7 +187,8 @@
                 top: mouse_actual_pos.top,
                 diff_left: diff_x + ($(window).scrollLeft() - this.win_offset_x),
                 diff_top: diff_y + ($(window).scrollTop() - this.win_offset_y)
-            }
+            },
+            scroll: scroll_pos
         };
     };
 
@@ -356,13 +364,8 @@
 
         this.options.autoscroll && this.manage_scroll(data);
 
-        if (this.$scroll_target) {
-          var current_scroll = this.$scroll_target.scrollTop();
-          console.log("initial_scroll", this.initial_scroll);
-          console.log("current_scroll", current_scroll);
-
-          data.position.top = data.position.top + current_scroll - this.initial_scroll;
-        }
+        var scroll_change = data.scroll.current - data.scroll.initial;
+        data.position.top = data.position.top + scroll_change;
 
         if (this.options.move_element) {
             (this.helper ? this.$helper : this.$player).css({
@@ -389,10 +392,6 @@
       if (this.$scroll_target) {
         var current_scroll = this.$scroll_target.scrollTop();
         var scroll_amount = current_scroll - this.previous_scroll;
-
-        console.log("previous_scroll", this.previous_scroll);
-        console.log("current_scroll", current_scroll);
-        console.log("Scrolled by ", scroll_amount);
 
         var new_position = {
           left: this.last_position.left,
