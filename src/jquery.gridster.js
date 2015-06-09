@@ -1194,8 +1194,10 @@
         this.$helper.add(this.$player).add(this.$wrapper)
             .removeClass('dragging');
 
+        var scroll_change = ui.scroll.current - ui.scroll.initial;
+
         ui.position.left = ui.position.left + this.baseX;
-        ui.position.top = ui.position.top + this.baseY;
+        ui.position.top = ui.position.top + this.baseY + scroll_change;
         this.colliders_data = this.collision_api.get_closest_colliders(
             ui.position);
 
