@@ -1515,12 +1515,12 @@
 				.removeClass('dragging');
 
 		var margin_sides = this.options.widget_margins;
-
+        	var scroll_change = ui.scroll.current - ui.scroll.initial;
 		var placeholder_column = this.$preview_holder.attr('data-col');
 		var placeholder_row = this.$preview_holder.attr('data-row');
 
 		ui.position.left = ui.position.left + this.baseX - (margin_sides[0] * placeholder_column);
-		ui.position.top = ui.position.top + this.baseY - (margin_sides[1] * placeholder_row);
+		ui.position.top = ui.position.top + this.baseY + scroll_change - (margin_sides[1] * placeholder_row);
 		this.colliders_data = this.collision_api.get_closest_colliders(
 				ui.position);
 
