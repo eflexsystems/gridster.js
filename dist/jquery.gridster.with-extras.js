@@ -1,4 +1,4 @@
-/*! gridster.js - v0.5.6 - 2015-05-15
+/*! gridster.js - v0.5.6 - 2015-06-09
 * http://gridster.net/
 * Copyright (c) 2015 ducksboard; Licensed MIT */
 
@@ -449,7 +449,8 @@
         container_width: 0,  // 0 == auto
         move_element: true,
         helper: false,  // or 'clone'
-        remove_helper: true
+        remove_helper: true,
+        scroll_target: null
         // drag: function(e) {},
         // start : function(e, ui) {},
         // stop : function(e) {}
@@ -501,6 +502,7 @@
       this.options = $.extend({}, defaults, options);
       this.$document = $(document);
       this.$container = $(el);
+      this.$scroll_target = this.options.scroll_target;
       this.$dragitems = $(this.options.items, this.$container);
       this.is_dragging = false;
       this.player_min_left = 0 + this.options.offset_left;
@@ -590,6 +592,13 @@
             }
         }
 
+        var scroll_pos = {initial: 0, current: 0}
+
+        if (this.$scroll_target) {
+          scroll_pos.current = this.$scroll_target.scrollTop();
+          scroll_pos.initial = this.initial_scroll;
+        }
+
         return {
             position: {
                 left: left,
@@ -600,7 +609,8 @@
                 top: mouse_actual_pos.top,
                 diff_left: diff_x + ($(window).scrollLeft() - this.win_offset_x),
                 diff_top: diff_y + ($(window).scrollTop() - this.win_offset_y)
-            }
+            },
+            scroll: scroll_pos
         };
     };
 
@@ -734,6 +744,13 @@
         if (this.is_dragging) { return this; }
 
         this.drag_start = this.is_dragging = true;
+
+        if (this.$scroll_target) {
+          this.previous_scroll = this.$scroll_target.scrollTop();
+          this.$scroll_target.on('scroll.gridster', $.proxy(this.on_scroll, this));
+          this.initial_scroll = this.previous_scroll;
+        }
+
         var offset = this.$container.offset();
         this.baseX = Math.round(offset.left);
         this.baseY = Math.round(offset.top);
@@ -769,6 +786,9 @@
 
         this.options.autoscroll && this.manage_scroll(data);
 
+        var scroll_change = data.scroll.current - data.scroll.initial;
+        data.position.top = data.position.top + scroll_change;
+
         if (this.options.move_element) {
             (this.helper ? this.$helper : this.$player).css({
                 'position': 'absolute',
@@ -778,6 +798,8 @@
         }
 
         var last_position = this.last_position || data.position;
+
+
         data.prev_position = last_position;
 
         if (this.options.drag) {
@@ -786,6 +808,28 @@
 
         this.last_position = data.position;
         return false;
+    };
+
+    fn.on_scroll = function(e) {
+      if (this.$scroll_target) {
+        var current_scroll = this.$scroll_target.scrollTop();
+        var scroll_amount = current_scroll - this.previous_scroll;
+
+        var new_position = {
+          left: this.last_position.left,
+          top: this.last_position.top + scroll_amount
+        };
+
+        (this.helper ? this.$helper : this.$player).css({
+            'position': 'absolute',
+            'left' : new_position.left,
+            'top' : new_position.top
+        });
+
+        this.previous_scroll = current_scroll;
+        this.last_position = new_position;
+        return false;
+      }
     };
 
 
@@ -799,6 +843,10 @@
 
         if (this.helper && this.options.remove_helper) {
             this.$helper.remove();
+        }
+
+        if (this.$scroll_target) {
+          this.$scroll_target.off('scroll.gridster');
         }
 
         return false;
@@ -2041,8 +2089,10 @@
         this.$helper.add(this.$player).add(this.$wrapper)
             .removeClass('dragging');
 
+        var scroll_change = ui.scroll.current - ui.scroll.initial;
+
         ui.position.left = ui.position.left + this.baseX;
-        ui.position.top = ui.position.top + this.baseY;
+        ui.position.top = ui.position.top + this.baseY + scroll_change;
         this.colliders_data = this.collision_api.get_closest_colliders(
             ui.position);
 
