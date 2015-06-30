@@ -2409,11 +2409,11 @@
         start_callback.call(this, rows[0]);
 
         for (i = 0; i < n_rows; i++) {
-            var is_last_row = false;
-            if (i == (n_rows - 1)) { is_last_row = true; };
+            var is_first_row = false;
+            if (i == 0) { is_first_row = true; };
 
             if ($.inArray(rows[i], this.last_rows) === -1) {
-                (start_callback || $.noop).call(this, rows[i], is_last_row);
+                (start_callback || $.noop).call(this, rows[i], is_first_row);
             }
         }
 
@@ -2436,7 +2436,7 @@
     * @method set_player
     * @return {object}
     */
-    fn.set_player = function(col, row, no_player, is_last_row) {
+    fn.set_player = function(col, row, no_player, is_first_row) {
         var self = this;
         if (!no_player) {
             this.empty_cells_player_occupies();
@@ -2465,7 +2465,7 @@
 
         /* if there is not widgets overlapping in the new player position,
          * update the new placeholder position. */
-        if (!$overlapped_widgets.length && !is_last_row) {
+        if (!$overlapped_widgets.length && is_first_row) {
             this.set_placeholder(to_col, to_row);
         }
 
@@ -3018,8 +3018,8 @@
     * @param {Number} row The collided row.
     * @return {jQuery} Returns a jQuery collection of HTMLElements.
     */
-    fn.on_start_overlapping_row = function(row, is_last_row) {
-        this.set_player(false, row, null, is_last_row);
+    fn.on_start_overlapping_row = function(row, is_first_row) {
+        this.set_player(false, row, null, is_first_row);
     };
 
 
