@@ -422,7 +422,6 @@
         if (this.helper && this.options.remove_helper) {
             this.$helper.remove();
         }
-
         if (this.$scroll_target) {
           this.$scroll_target.off('scroll.gridster');
         }
