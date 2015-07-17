@@ -10,5 +10,11 @@
   "main": [
     "dist/jquery.gridster.css",
     "dist/jquery.gridster.js"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test"
   ]
 }
