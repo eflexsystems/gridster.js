@@ -1,6 +1,9 @@
 {
-  "name": "gridster",
-  "homepage": "https://github.com/eflexsystems/gridster.js",
+  "name": "eflex-gridster",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/eflexsystems/gridster.js"
+  },
   "dependencies": {
     "jquery-ui": "*"
   },
