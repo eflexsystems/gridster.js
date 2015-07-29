@@ -942,7 +942,8 @@
         },
         draggable: {
             items: '.gs-w',
-            distance: 4
+            distance: 4,
+            ignore_dragging: Draggable.defaults.ignore_dragging.slice(0)
         },
         resize: {
             enabled: false,
