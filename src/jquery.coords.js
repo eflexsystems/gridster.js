@@ -30,7 +30,7 @@
     function Coords(obj) {
         if (obj[0] && $.isPlainObject(obj[0])) {
             this.data = obj[0];
-        }else {
+        } else {
             this.el = obj;
         }
 
