@@ -1,4 +1,4 @@
-/*! gridster.js - v0.5.6 - 2015-06-30
+/*! gridster.js - v0.5.6 - 2015-07-29
 * http://gridster.net/
 * Copyright (c) 2015 ducksboard; Licensed MIT */
 
@@ -26,7 +26,7 @@
     function Coords(obj) {
         if (obj[0] && $.isPlainObject(obj[0])) {
             this.data = obj[0];
-        }else {
+        } else {
             this.el = obj;
         }
 
@@ -283,20 +283,23 @@
                 var area_coords = self.calculate_overlapped_area_coords(
                     player_coords, collider_coords);
                 var area = self.calculate_overlapped_area(area_coords);
-                var collider_data = {
-                    area: area,
-                    area_coords : area_coords,
-                    region: region,
-                    coords: collider_coords,
-                    player_coords: player_coords,
-                    el: $collider
-                };
 
-                if (self.options.on_overlap) {
-                    self.options.on_overlap.call(this, collider_data);
+                if (area !== 0) {
+                    var collider_data = {
+                        area: area,
+                        area_coords : area_coords,
+                        region: region,
+                        coords: collider_coords,
+                        player_coords: player_coords,
+                        el: $collider
+                    };
+
+                    if (self.options.on_overlap) {
+                        self.options.on_overlap.call(this, collider_data);
+                    }
+                    colliders_coords.push($collider_coords_ins);
+                    colliders_data.push(collider_data);
                 }
-                colliders_coords.push($collider_coords_ins);
-                colliders_data.push(collider_data);
             }
         }
 
@@ -4049,13 +4052,36 @@
         // remove bound callback on window resize
         $(window).unbind('.gridster');
 
+        // disable gridster and resizing to prevent callback from
+        // old non-destroyed instances from interfering
+        this.disable();
+        this.disable_resize();
+
         if (this.drag_api) {
             this.drag_api.destroy();
+            delete this.drag_api;
         }
 
         this.remove_style_tags();
 
-        remove && this.$el.remove();
+        // lastly, remove gridster element
+        // this will additionally cause any data associated to this element to be removed, including this
+        // very gridster instance
+        if (remove === true) {
+            this.$el.remove();
+        } else {
+            //Clean up leftovers that may have been added to the wrapper or widget elements
+            // this will enable gridster to be reinitialized cleanly.
+            this.$el.removeData('drag');
+
+            this.$wrapper.removeClass("ready");
+
+            this.$widgets.each(function(index, element) {
+                $(element).removeData('coords').removeClass('player-revert').removeClass('gs_w').css('position', '');
+            });
+
+            this.$el.removeData('gridster');
+        }
 
         return this;
     };
