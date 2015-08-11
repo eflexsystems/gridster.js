@@ -41,7 +41,8 @@
             };
         },
         collision: {
-            wait_for_mouseup: false
+            wait_for_mouseup: false,
+            always_move_down: false
         },
         draggable: {
             items: '.gs-w',
@@ -105,6 +106,8 @@
     *       @param {Boolean} [options.collision.wait_for_mouseup] Default is false.
     *       If true then it will not move colliding widgets during drag, but only on
     *       mouseup.
+    *       @param {Boolean} [options.collision.always_move_down] Default is false.
+    *       If true then colliding widgets under player will always go down, not up.
     *    @param {Object} [options.draggable] An Object with all options for
     *     Draggable class you want to overwrite. See Draggable docs for more
     *     info.
@@ -128,7 +131,7 @@
     *        `[min_cols_occupied, min_rows_occupied]`
     *       @param {Function} [options.resize.start] Function executed
     *        when resizing starts.
-    *       @param {Function} [otions.resize.resize] Function executed
+    *       @param {Function} [options.resize.resize] Function executed
     *        during the resizing.
     *       @param {Function} [options.resize.stop] Function executed
     *        when resizing stops.
@@ -1634,28 +1637,35 @@
             var wgd = w;
             var $w = wgd.el;
 
-            var can_go_widget_up = this.can_go_widget_up(wgd);
+            if (this.options.collision.always_move_down) {
+                var y = (to_row + this.player_grid_data.size_y) - wgd.row;
 
-            if (can_go_widget_up) {
-                //target CAN go up
-                //so move widget up
-                this.move_widget_to($w, can_go_widget_up);
-                this.set_placeholder(to_col, can_go_widget_up + wgd.size_y);
-
+                this.move_widget_down($w, y);
+                this.set_placeholder(to_col, to_row);
             } else {
-                //target can't go up
-                var can_go_player_up = this.can_go_player_up(
-                    this.player_grid_data);
+                var can_go_widget_up = this.can_go_widget_up(wgd);
 
-                if (!can_go_player_up) {
-                    // target can't go up
-                    // player cant't go up
-                    // so we need to move widget down to a position that dont
-                    // overlaps player
-                    var y = (to_row + this.player_grid_data.size_y) - wgd.row;
+                if (can_go_widget_up) {
+                    //target CAN go up
+                    //so move widget up
+                    this.move_widget_to($w, can_go_widget_up);
+                    this.set_placeholder(to_col, can_go_widget_up + wgd.size_y);
 
-                    this.move_widget_down($w, y);
-                    this.set_placeholder(to_col, to_row);
+                } else {
+                    //target can't go up
+                    var can_go_player_up = this.can_go_player_up(
+                        this.player_grid_data);
+
+                    if (!can_go_player_up) {
+                        // target can't go up
+                        // player cant't go up
+                        // so we need to move widget down to a position that dont
+                        // overlaps player
+                        var y = (to_row + this.player_grid_data.size_y) - wgd.row;
+
+                        this.move_widget_down($w, y);
+                        this.set_placeholder(to_col, to_row);
+                    }
                 }
             }
         }, this));
