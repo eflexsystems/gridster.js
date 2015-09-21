@@ -2,23 +2,23 @@
   "name": "gridster",
   "title": "gridster.js",
   "description": "a drag-and-drop multi-column jQuery grid plugin",
-  "version": "0.5.7",
-  "homepage": "http://gridster.net/",
+  "version": "1.0.3",
+  "homepage": "https://github.com/eflexsystems/gridster.js",
   "author": {
     "name": "ducksboard",
-    "email": "hackers@ducksboard.com"
+    "email": "jacobjewell@eflexsystems.com"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/ducksboard/gridster.js.git"
+    "url": "git://github.com/eflexsystems/gridster.js.git"
   },
   "bugs": {
-    "url": "https://github.com/ducksboard/gridster.js/issues"
+    "url": "https://github.com/eflexsystems/gridster.js/issues"
   },
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/ducksboard/gridster.js/blob/master/LICENSE"
+      "url": "https://github.com/eflexsystems/gridster.js/blob/master/LICENSE"
     }
   ],
   "keywords": [],
