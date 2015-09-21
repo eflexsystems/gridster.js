@@ -274,7 +274,9 @@
     */
     fn.disable = function() {
         this.$wrapper.find('.player-revert').removeClass('player-revert');
-        this.drag_api.disable();
+        if (this.drag_api) {
+          this.drag_api.disable();
+        }
         return this;
     };
 
@@ -286,7 +288,9 @@
     * @return {Class} Returns the instance of the Gridster Class.
     */
     fn.enable = function() {
-        this.drag_api.enable();
+        if (this.drag_api) {
+          this.drag_api.enable();
+        }
         return this;
     };
 
@@ -1150,12 +1154,6 @@
             var prcol = this.placeholder_grid_data.col +
                 this.placeholder_grid_data.size_x - 1;
 
-            // "- 1" due to adding at least 1 column in on_start_drag
-            if (prcol >= this.cols - 1 && this.options.max_cols >= this.cols + 1) {
-                this.add_faux_cols(1);
-                this.set_dom_grid_width(this.cols + 1);
-                this.drag_api.set_limits(this.container_width);
-            }
 
             this.collision_api.set_colliders(this.faux_grid);
         }
