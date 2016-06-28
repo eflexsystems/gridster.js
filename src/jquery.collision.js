@@ -7,7 +7,7 @@
  */
 
 ;(function(root, factory) {
-	'use strict';
+  'use strict';
     if(typeof exports === 'object') {
         module.exports = factory(require('jquery'));
     }
@@ -19,7 +19,7 @@
     }
 
 }(this, function($, Coords) {
-	'use strict';
+  'use strict';
     var defaults = {
         colliders_context: document.body,
         overlapping_region: 'C'

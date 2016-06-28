@@ -18,7 +18,7 @@
     }
 
 }(this, function($) {
-	'use strict';
+  'use strict';
     var defaults = {
         items: 'li',
         distance: 1,
@@ -85,7 +85,7 @@
         this.$container = $(el);
         this.$scroll_container = this.options.scroll_container === window ?
             $(window) : this.$container.closest(this.options.scroll_container);
-    	this.$scroll_target = this.options.scroll_target;
+      this.$scroll_target = this.options.scroll_target;
         this.is_dragging = false;
         this.player_min_left = 0 + this.options.offset_left;
         this.id = uniqId();
@@ -105,7 +105,7 @@
         this.events();
 
         $window.bind(this.nsEvent('resize'),
-				throttle($.proxy(this.calculate_dimensions, this), 200));
+        throttle($.proxy(this.calculate_dimensions, this), 200));
     };
 
     fn.nsEvent = function(ev) {
@@ -136,7 +136,7 @@
     };
 
     fn.get_actual_pos = function($el) {
-		return $el.position();
+    return $el.position();
     };
 
 
@@ -491,13 +491,13 @@
         return new Draggable(this, options);
     };
 
-	$.fn.dragg = function (options) {
-		return this.each(function () {
-			if (!$.data(this, 'drag')) {
-				$.data(this, 'drag', new Draggable(this, options));
-			}
-		});
-	};
+  $.fn.dragg = function (options) {
+    return this.each(function () {
+      if (!$.data(this, 'drag')) {
+        $.data(this, 'drag', new Draggable(this, options));
+      }
+    });
+  };
 
     return Draggable;
 
