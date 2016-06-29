@@ -1,4 +1,4 @@
-/*! gridster.js - v0.7.0 - 2016-06-28
+/*! gridster.js - v0.7.0 - 2016-06-29
 * https://dsmorse.github.io/gridster.js/
 * Copyright (c) 2016 ducksboard; Licensed MIT */
 
@@ -979,6 +979,7 @@
         max_cols: Infinity,
         min_rows: 1,
         max_rows: 15,
+        autogrow_cols: false,
         autogenerate_stylesheet: true,
         avoid_overlapped_widgets: true,
         auto_init: true,
@@ -2360,7 +2361,7 @@
     var pgd_sizex = this.player_grid_data.size_x;
     var cols_diff = this.cols - this.highest_col;
 
-    if (this.options.max_cols === Infinity && cols_diff <= pgd_sizex) {
+    if ((this.options.max_cols === Infinity || this.options.autogrow_cols) && cols_diff <= pgd_sizex) {
       this.add_faux_cols(Math.min(pgd_sizex - cols_diff, 1));
     }
 
@@ -2416,7 +2417,7 @@
     };
 
     // auto grow cols
-    if (this.options.max_cols === Infinity) {
+    if (this.options.max_cols === Infinity || this.options.autogrow_cols) {
       var prcol = this.placeholder_grid_data.col +
           this.placeholder_grid_data.size_x - 1;
 
@@ -2536,7 +2537,7 @@
     this.set_dom_grid_height();
     this.set_dom_grid_width();
 
-    if (this.options.max_cols === Infinity) {
+    if (this.options.max_cols === Infinity || this.options.autogrow_cols) {
       this.drag_api.set_limits((this.cols * this.min_widget_width) + ((this.cols + 1) * this.options.widget_margins[0]));
     }
   };
@@ -2640,7 +2641,7 @@
     this.set_dom_grid_width();
     this.set_dom_grid_height();
 
-    if (this.options.max_cols === Infinity) {
+    if (this.options.max_cols === Infinity || this.options.autogrow_cols) {
       this.drag_api.set_limits(this.cols * this.min_widget_width);
     }
   };
