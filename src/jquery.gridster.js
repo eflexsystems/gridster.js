@@ -76,6 +76,7 @@
         resize: {
           enabled: false,
           axes: ['both'],
+          remove_holes: true,
           handle_append_to: '',
           handle_class: 'gs-resize-handle',
           max_size: [Infinity, Infinity],
@@ -149,6 +150,8 @@
    *                    resizing.
    *                @param {Array} [options.resize.axes] Axes in which widgets can be
    *                    resized. Possible values: ['x', 'y', 'both'].
+   *                @param {Array} [options.resize.remove_holes] Whether or not grid
+   *                    automatically fills in holes left from resizing.
    *                @param {String} [options.resize.handle_append_to] Set a valid CSS
    *                    selector to append resize handles to.
    *                @param {String} [options.resize.handle_class] CSS class name used
@@ -870,7 +873,7 @@
 
     this.update_widget_dimensions($widget, new_wgd);
 
-    if (empty_cols.length) {
+    if (this.options.resize.remove_holes && empty_cols.length) {
       var cols_to_remove_holes = [
         empty_cols[0], new_wgd.row,
         empty_cols[empty_cols.length - 1] - empty_cols[0] + 1,
@@ -881,7 +884,7 @@
       this.remove_empty_cells.apply(this, cols_to_remove_holes);
     }
 
-    if (empty_rows.length) {
+    if (this.options.resize.remove_holes && empty_rows.length) {
       var rows_to_remove_holes = [
         new_wgd.col, new_wgd.row, new_wgd.size_x, new_wgd.size_y, $widget
       ];
