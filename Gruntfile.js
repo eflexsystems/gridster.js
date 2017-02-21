@@ -177,8 +177,6 @@ module.exports = function(grunt) {
     less: {
       default: {
         options: {
-          sourceMap: true,
-          sourceMapFilename: 'dist/jquery.gridster.css.map'
         },
         files: {
           'dist/jquery.gridster.css': 'src/jquery.gridster.less'

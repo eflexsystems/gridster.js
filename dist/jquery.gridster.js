@@ -1,6 +1,6 @@
-/*! gridster.js - v0.7.0 - 2016-07-05
+/*! gridster.js - v0.7.0 - 2017-02-21
 * https://dsmorse.github.io/gridster.js/
-* Copyright (c) 2016 ducksboard; Licensed MIT */
+* Copyright (c) 2017 ducksboard; Licensed MIT */
 
 ;(function(root, factory) {
   'use strict';
