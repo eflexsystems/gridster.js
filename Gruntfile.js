@@ -24,12 +24,12 @@ module.exports = function(grunt) {
         banner: '<%= meta.banner %>'
       },
       dist_js: {
-        src: ['src/jquery.coords.js', 'src/jquery.collision.js', 'src/utils.js', 'src/jquery.draggable.js', 'src/jquery.<%= pkg.name %>.js'],
+				src: ['src/jquery.coords.js', 'src/jquery.collision.js', 'src/utils.js', 'src/jquery.draggable.js', 'src/jquery.gridster.js'],
         dest: 'dist/jquery.<%= pkg.name %>.js'
       },
 
       dist_extras_js: {
-        src: ['src/jquery.coords.js', 'src/jquery.collision.js', 'src/utils.js', 'src/jquery.draggable.js', 'src/jquery.<%= pkg.name %>.js', 'src/jquery.<%= pkg.name %>.extras.js'],
+				src: ['src/jquery.coords.js', 'src/jquery.collision.js', 'src/utils.js', 'src/jquery.draggable.js', 'src/jquery.gridster.js', 'src/jquery.gridster.extras.js'],
         dest: 'dist/jquery.<%= pkg.name %>.with-extras.js'
       }
     },
@@ -56,7 +56,7 @@ module.exports = function(grunt) {
           banner: '<%= meta.minibanner %>'
         },
         files: {
-          'dist/jquery.<%= pkg.name %>.min.css': ['dist/jquery.<%= pkg.name %>.css']
+					'dist/jquery.<%= pkg.name %>.min.css': ['dist/jquery.gridster.css']
         }
       }
     },
@@ -64,6 +64,7 @@ module.exports = function(grunt) {
       options: {
         verbose: true,
         reporter: require('jshint-stylish'),
+				reporterOutput: '',
         jshintrc: '.jshintrc'
       },
     files: ['GruntFile.js', 'src/**/*.js','sample/**/*.js', 'test/**/*.js']
