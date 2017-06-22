@@ -4272,7 +4272,7 @@
               // this will enable gridster to be reinitialized cleanly.
               this.$el.removeData('drag');
 
-              this.$wrapper.removeClass("ready");
+              this.$wrapper.removeClass('ready');
 
               this.$widgets.each(function(index, element) {
                   $(element).removeData('coords').removeClass('player-revert').removeClass('gs_w').css('position', '');

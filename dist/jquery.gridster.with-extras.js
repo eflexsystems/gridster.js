@@ -1,4 +1,4 @@
-/*! gridster.js - v0.7.0 - 2017-03-27
+/*! gridster.js - v0.7.0 - 2017-06-22
 * https://dsmorse.github.io/gridster.js/
 * Copyright (c) 2017 ducksboard; Licensed MIT */
 
@@ -634,7 +634,7 @@
             }
         }
 
-        var scroll_pos = {initial: 0, current: 0}
+        var scroll_pos = {initial: 0, current: 0};
 
         if (this.$scroll_target) {
           scroll_pos.current = this.$scroll_target.scrollTop();
@@ -2327,7 +2327,7 @@
       container_width: this.container_width,
       move_element: false,
       resize: true,
-			limit: { width: this.options.max_cols !== Infinity || this.limit.width, height: this.options.max_rows !== Infinity || this.limit.height },
+			limit: { width: this.options.max_cols !== Infinity || this.options.limit.width, height: this.options.max_rows !== Infinity || this.options.limit.height },
       scroll_container: this.options.scroll_container,
       start: $.proxy(this.on_start_resize, this),
       stop: $.proxy(function (event, ui) {
@@ -5229,7 +5229,7 @@
               // this will enable gridster to be reinitialized cleanly.
               this.$el.removeData('drag');
 
-              this.$wrapper.removeClass("ready");
+              this.$wrapper.removeClass('ready');
 
               this.$widgets.each(function(index, element) {
                   $(element).removeData('coords').removeClass('player-revert').removeClass('gs_w').css('position', '');
