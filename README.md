@@ -28,6 +28,20 @@ As of result of the inactivity over the last year in the [Ducksboard](https://gi
 for current support.  He will GLADLY accept pull requests, and will be working to merge existing
 Pull Requests from Ducksboard repo.
 
+## Install with NPM
+
+This fork of Gridster can be installed via [NPM](https://npmjs.com/package/dsmorse-gridster);
+
+```
+npm install dsmorse-gridster
+```
+
+or to save.
+
+```
+npm install dsmorse-gridster --save
+```
+
 ## Ruby on Rails integration
 
 This artifact is published to [rubygems.org](https://rubygems.org/gems/gridster.js-rails) to be consumed by ruby on rails applications.
