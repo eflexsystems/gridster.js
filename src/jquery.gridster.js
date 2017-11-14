@@ -37,6 +37,7 @@
 				},
 				min_rows: 1,
 				max_rows: 15,
+				autogrow_cols: false,
 				autogenerate_stylesheet: true,
 				avoid_overlapped_widgets: true,
 				auto_init: true,
@@ -79,6 +80,7 @@
 				resize: {
 					enabled: false,
 					axes: ['both'],
+					remove_holes: true,
 					handle_append_to: '',
 					handle_class: 'gs-resize-handle',
 					max_size: [Infinity, Infinity],
@@ -153,6 +155,8 @@
 	 *                    resizing.
 	 *                @param {Array} [options.resize.axes] Axes in which widgets can be
 	 *                    resized. Possible values: ['x', 'y', 'both'].
+	 *                @param {Array} [options.resize.remove_holes] Whether or not grid
+	 *                    automatically fills in holes left from resizing.
 	 *                @param {String} [options.resize.handle_append_to] Set a valid CSS
 	 *                    selector to append resize handles to.
 	 *                @param {String} [options.resize.handle_class] CSS class name used
@@ -883,7 +887,7 @@
 
 		this.update_widget_dimensions($widget, new_wgd);
 
-    if (this.options.shift_widgets_up) {
+    if (this.options.shift_widgets_up || this.options.resize.remove_holes) {
 			if (empty_cols.length) {
 				var cols_to_remove_holes = [
 					empty_cols[0], new_wgd.row,
@@ -1433,7 +1437,7 @@
 		var pgd_sizex = this.player_grid_data.size_x;
 		var cols_diff = this.cols - this.highest_col;
 
-		if (this.options.max_cols === Infinity && cols_diff <= pgd_sizex) {
+		if ((this.options.max_cols === Infinity || this.options.autogrow_cols) && cols_diff <= pgd_sizex) {
 			this.add_faux_cols(Math.min(pgd_sizex - cols_diff, 1));
 		}
 
@@ -1489,7 +1493,7 @@
 		};
 
 		// auto grow cols
-		if (this.options.max_cols === Infinity) {
+		if (this.options.max_cols === Infinity || this.options.autogrow_cols) {
 			var prcol = this.placeholder_grid_data.col +
 					this.placeholder_grid_data.size_x - 1;
 
@@ -1534,12 +1538,13 @@
 				.removeClass('dragging');
 
 		var margin_sides = this.options.widget_margins;
+		var scroll_change = ui.scroll.current - ui.scroll.initial;
 
 		var placeholder_column = this.$preview_holder.attr('data-col');
 		var placeholder_row = this.$preview_holder.attr('data-row');
 
 		ui.position.left = ui.position.left + this.baseX - (margin_sides[0] * placeholder_column);
-		ui.position.top = ui.position.top + this.baseY - (margin_sides[1] * placeholder_row);
+		ui.position.top = ui.position.top + this.baseY + scroll_change - (margin_sides[1] * placeholder_row);
 		this.colliders_data = this.collision_api.get_closest_colliders(
 				ui.position);
 
@@ -1613,7 +1618,7 @@
 		this.set_dom_grid_height();
 		this.set_dom_grid_width();
 
-		if (this.options.max_cols === Infinity) {
+		if (this.options.max_cols === Infinity || this.options.autogrow_cols) {
 			this.drag_api.set_limits((this.cols * this.min_widget_width) + ((this.cols + 1) * this.options.widget_margins[0]));
 		}
 	};
@@ -1717,7 +1722,7 @@
 		this.set_dom_grid_width();
 		this.set_dom_grid_height();
 
-		if (this.options.max_cols === Infinity) {
+		if (this.options.max_cols === Infinity || this.options.autogrow_cols) {
 			this.drag_api.set_limits(this.cols * this.min_widget_width);
 		}
 	};
