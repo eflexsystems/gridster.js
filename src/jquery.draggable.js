@@ -185,7 +185,7 @@
             }
         }
 
-        var scroll_pos = {initial: 0, current: 0}
+        var scroll_pos = {initial: 0, current: 0};
 
         if (this.$scroll_target) {
           scroll_pos.current = this.$scroll_target.scrollTop();
