@@ -4258,6 +4258,7 @@
 		this.remove_style_tags();
 
 		remove && this.$el.remove();
+		this.$el.removeData('drag');
 
 		return this;
 	};
