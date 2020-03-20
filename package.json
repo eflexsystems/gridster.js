@@ -1,5 +1,5 @@
 {
-  "name": "eflex-gridster",
+  "name": "@eflexsystems/gridster",
   "title": "gridster.js",
   "description": "a drag-and-drop multi-column jQuery grid plugin",
   "version": "1.1.4",
